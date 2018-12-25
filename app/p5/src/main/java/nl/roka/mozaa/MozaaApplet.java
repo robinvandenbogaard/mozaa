@@ -1,18 +1,18 @@
 package nl.roka.mozaa;
 
-import nl.roka.mozaa.api.GameScore;
 import nl.roka.mozaa.api.MozaaGame;
 import nl.roka.mozaa.api.MozaaGameFactory;
 import nl.roka.mozaa.camera.Camera;
 import nl.roka.mozaa.camera.GridCalculator;
-import nl.roka.mozaa.card.Card;
-import nl.roka.mozaa.rendering.CardRenderer;
-import nl.roka.mozaa.rendering.MozaaRenderer;
+import nl.roka.mozaa.rendering.GroupRenderer;
+import nl.roka.mozaa.rendering.board.CardRenderer;
+import nl.roka.mozaa.rendering.board.MozaaRenderer;
+import nl.roka.mozaa.rendering.hud.CameraDebugRenderer;
+import nl.roka.mozaa.rendering.hud.ScoreRenderer;
 import nl.roka.mozaa.util.Dimension;
 import processing.core.PApplet;
 
 import java.awt.event.KeyEvent;
-import java.util.Optional;
 
 
 public class MozaaApplet extends PApplet {
@@ -22,6 +22,7 @@ public class MozaaApplet extends PApplet {
 	private MozaaGame game;
 	private Camera camera;
 	private MozaaRenderer renderer;
+	private GroupRenderer hudRenderer;
 	private GridCalculator gridCalculator;
 
 	public static void main(String[] args) {
@@ -41,6 +42,9 @@ public class MozaaApplet extends PApplet {
 		camera = new Camera(game, this, viewport);
 		renderer = new MozaaRenderer(camera, this);
 
+		hudRenderer = new GroupRenderer();
+		hudRenderer.add(new ScoreRenderer(this, game.getScore()));
+		hudRenderer.add(new CameraDebugRenderer(this, camera));
 	}
 
 	@Override
@@ -71,18 +75,13 @@ public class MozaaApplet extends PApplet {
 	}
 
 	private void drawHUD() {
-		fill(255);
-		if (MozaaRenderer.DEBUG)
-			text(camera.toString(), 0, 100);
+		hudRenderer.render();
 
 		pushPop(() -> {
 			translate(viewport.getWidth() - 200, viewport.getHeight()- 84);
 			nl.roka.mozaa.api.Card card = game.getCurrentCard();
 			CardRenderer.with(card, this).render();
 		});
-		GameScore score = game.getScore();
-		text("Score P1: "+score.getScorePlayer1(), 10, 20);
-		text("Score P2: "+score.getScorePlayer2(), 10, 40);
 	}
 
 	private void pushPop(Runnable runnable) {

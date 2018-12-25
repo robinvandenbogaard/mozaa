@@ -9,7 +9,6 @@ import nl.roka.mozaa.card.PlacedCard;
 import nl.roka.mozaa.field.PlayingField;
 import nl.roka.mozaa.player.Players;
 import nl.roka.mozaa.score.MoveScore;
-import nl.roka.mozaa.score.Points;
 import nl.roka.mozaa.score.ScoreCalculator;
 import nl.roka.mozaa.stock.Stock;
 import nl.roka.mozaa.stock.StockGenerator;
@@ -19,9 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.Observable;
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
 
 public class MozaaGameImpl extends Observable implements MozaaGame {
 

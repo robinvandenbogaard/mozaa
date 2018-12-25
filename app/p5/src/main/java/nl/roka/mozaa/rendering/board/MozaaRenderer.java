@@ -1,4 +1,4 @@
-package nl.roka.mozaa.rendering;
+package nl.roka.mozaa.rendering.board;
 
 import nl.roka.mozaa.api.Card;
 import nl.roka.mozaa.api.PlacedCard;
@@ -7,9 +7,6 @@ import nl.roka.mozaa.camera.Camera;
 import nl.roka.mozaa.camera.GridCalculator;
 import nl.roka.mozaa.util.Point;
 import processing.core.PApplet;
-
-import static processing.core.PApplet.degrees;
-import static processing.core.PApplet.radians;
 
 public class MozaaRenderer {
 

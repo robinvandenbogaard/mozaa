@@ -1,4 +1,4 @@
-package nl.roka.mozaa.rendering;
+package nl.roka.mozaa.rendering.board;
 
 
 import nl.roka.mozaa.api.Card;
@@ -8,8 +8,6 @@ import nl.roka.mozaa.util.Point;
 import processing.core.PApplet;
 
 import static nl.roka.mozaa.api.Direction.*;
-import static processing.core.PApplet.degrees;
-import static processing.core.PApplet.lerp;
 import static processing.core.PApplet.radians;
 
 public class CardRenderer {

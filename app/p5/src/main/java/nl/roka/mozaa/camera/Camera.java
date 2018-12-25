@@ -3,7 +3,7 @@ package nl.roka.mozaa.camera;
 import nl.roka.mozaa.MozaaApplet;
 import nl.roka.mozaa.api.BoardMetrics;
 import nl.roka.mozaa.api.MozaaGame;
-import nl.roka.mozaa.rendering.CardRenderer;
+import nl.roka.mozaa.rendering.board.CardRenderer;
 import nl.roka.mozaa.util.Dimension;
 import nl.roka.mozaa.util.Point;
 import nl.roka.mozaa.util.Rectangle;
