@@ -4,13 +4,16 @@ package nl.roka.mozaa.rendering.board;
 import nl.roka.mozaa.api.Card;
 import nl.roka.mozaa.api.Color;
 import nl.roka.mozaa.api.Direction;
+import nl.roka.mozaa.rendering.BaseRenderer;
+import nl.roka.mozaa.rendering.GroupRenderer;
+import nl.roka.mozaa.rendering.Renderer;
 import nl.roka.mozaa.util.Point;
 import processing.core.PApplet;
 
 import static nl.roka.mozaa.api.Direction.*;
 import static processing.core.PApplet.radians;
 
-public class CardRenderer {
+public class CardRenderer extends BaseRenderer implements Renderer {
 	public static final int SIZE = 64;
 
 	private static final Point center = Point.of(SIZE/2, SIZE/2),
@@ -20,13 +23,20 @@ public class CardRenderer {
 			bottomRight = Point.of(SIZE, SIZE);
 
 	private final Card card;
-	private final PApplet p5;
+	private final GroupRenderer faces;
 	private float alpha;
 
-	private CardRenderer(Card card, PApplet p5) {
+	protected CardRenderer(Card card, PApplet p5) {
+		super(p5);
 		this.card = card;
-		this.p5 = p5;
 		this.alpha = 255;
+		this.faces = new GroupRenderer();
+
+		faces.add(new FaceRenderer(p5, getColor(DOWN), bottomRight, bottomLeft, center));
+		faces.add(new FaceRenderer(p5, getColor(RIGHT), bottomRight, topRight, center));
+		faces.add(new FaceRenderer(p5, getColor(UP), topLeft, topRight, center));
+		faces.add(new FaceRenderer(p5, getColor(LEFT), topLeft, bottomLeft, center));
+
 	}
 
 	public static CardRenderer with(Card card, PApplet p5) {
@@ -35,32 +45,29 @@ public class CardRenderer {
 
 	public CardRenderer alpha(float alpha) {
 		this.alpha = alpha;
+		//FIXME: this will be improved.
+		faces.clear();
+		faces.add(new FaceRenderer(p5, getColor(DOWN), bottomRight, bottomLeft, center, alpha));
+		faces.add(new FaceRenderer(p5, getColor(RIGHT), bottomRight, topRight, center, alpha));
+		faces.add(new FaceRenderer(p5, getColor(UP), topLeft, topRight, center, alpha));
+		faces.add(new FaceRenderer(p5, getColor(LEFT), topLeft, bottomLeft, center, alpha));
 		return this;
 	}
 
 	public void render() {
-		p5.pushMatrix();
-		p5.rotate(radians(card.getRotation()));
-		p5.translate(-32,-32);
-		renderFace(DOWN, bottomRight, bottomLeft, center);
-		renderFace(RIGHT, bottomRight, topRight, center);
-		renderFace(UP, topLeft, topRight, center);
-		renderFace(LEFT, topLeft, bottomLeft, center);
+		pushPop(() -> {
+			p5.rotate(radians(card.getRotation()));
+			p5.translate(-32,-32);
+			faces.forEach(Renderer::render);
 
-		p5.noFill();
-		p5.color(0);
-		p5.rect(0,0,SIZE, SIZE);
-		p5.popMatrix();
+			p5.noFill();
+			p5.color(0);
+			p5.rect(0,0,SIZE, SIZE);
+		});
 	}
 
-	private void renderFace(Direction direction, Point p1, Point p2, Point p3) {
-		int color = determineColor(card.getNormalizedColor(direction));
-
-		p5.fill(p5.red(color), p5.green(color), p5.blue(color), alpha);
-		p5.triangle(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
-	}
-
-	private int determineColor(Color color) {
+	private int getColor(Direction direction) {
+		Color color = card.getNormalizedColor(direction);
 		int result = 0;
 		switch (color) {
 			case RED:

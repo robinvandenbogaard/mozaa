@@ -20,14 +20,12 @@ public class Camera {
 	private static final int EMPTY_BORDER = 2;
 
 	private final MozaaGame game;
-	private final PApplet p5;
 	private final Dimension viewport;
 	private float scale;
 	Point position;
 
-	public Camera(MozaaGame game, MozaaApplet p5, Dimension viewport) {
+	public Camera(MozaaGame game, Dimension viewport) {
 		this.game = game;
-		this.p5 = p5;
 		this.viewport = viewport;
 		this.scale = 1f;
 		this.position = Point.of(64*64, 64*64).inverse();
@@ -92,16 +90,16 @@ public class Camera {
 		return (int) (y *( 1/scale)-position.getY());
 	}
 
-	public void translate() {
-		p5.translate(position.getX(), position.getY());
-	}
-
-	public void scale() {
-		p5.scale(scale);
-	}
-
 	@Override
 	public String toString() {
-		return String.format("Camera[scale: %f, position: %d,%d, world: %d, %d]", scale, position.getX(), position.getY(), globalToLocalX(p5.mouseX), globalToLocalY(p5.mouseY));
+		return String.format("Camera[scale: %f, position: %d,%d]", scale, position.getX(), position.getY());
+	}
+
+	public Point getPosition() {
+		return position;
+	}
+
+	public float getScale() {
+		return scale;
 	}
 }

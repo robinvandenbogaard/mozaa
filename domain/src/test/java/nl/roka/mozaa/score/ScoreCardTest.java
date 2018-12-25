@@ -112,4 +112,14 @@ public class ScoreCardTest {
 		assertThat(segment.getColor(), is(equalTo(Color.BLUE)));
 	}
 
+	@Test
+	public void mergeSegmentsIfLastFaceConnectsUpAndDown() {
+		ScoreCard scoreCard = ScoreCard.of(CardFactory.of("rggg", 270), Position.center());
+
+		ColorSegment segment = scoreCard.getSegment(Direction.UP);
+
+		assertThat(segment.getColor(), is(equalTo(Color.GREY)));
+		assertThat(segment.getDirections().size(), is(equalTo(3)));
+	}
+
 }

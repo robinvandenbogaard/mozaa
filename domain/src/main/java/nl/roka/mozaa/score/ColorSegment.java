@@ -6,6 +6,7 @@ import nl.roka.mozaa.api.Direction;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class ColorSegment {
 	private final Color color;
@@ -35,12 +36,29 @@ public class ColorSegment {
 				.contains(direction);
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void merge(ColorSegment seg) {
+		directions.addAll(seg.getDirections());
+	}
+
 	@Override
 	public String toString() {
 		return color.name() + directions.toString();
 	}
 
-	public Color getColor() {
-		return color;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ColorSegment segment = (ColorSegment) o;
+		return getColor() == segment.getColor();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getColor());
 	}
 }

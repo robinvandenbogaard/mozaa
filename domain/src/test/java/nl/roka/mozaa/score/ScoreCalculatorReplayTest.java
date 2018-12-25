@@ -25,6 +25,21 @@ public class ScoreCalculatorReplayTest {
 	}
 
 	@Test
+	public void shouldNotYield2Points() {
+		placeCard("rggg", 270, Position.of(64,65));
+		placeCard("zzbb", 180, Position.of(63,64));
+		placeCard("bbgr", 180, Position.of(63,65));
+		MoveScore score = calculator.getScoreFor(Position.of(63,65));
+		assertThat(score.getPoints(), is(equalTo(0)));
+
+		placeCard("bbbb", 0, Position.of(62,65));
+		placeCard("bzbg", 90, Position.of(65,65));
+
+		score = calculator.getScoreFor(Position.of(65,65));
+		assertThat(score.getPoints(), is(equalTo(4)));
+	}
+
+	@Test
 	public void played10cardsShouldYield2Points() {
 		placeCard("rrbb", 180, Position.of(63,64));
 		placeCard("rzbg", 270, Position.of(63,65));

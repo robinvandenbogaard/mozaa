@@ -1,5 +1,6 @@
 package nl.roka.mozaa.rendering.board;
 
+import nl.roka.mozaa.MozaaApplet;
 import nl.roka.mozaa.api.Card;
 import nl.roka.mozaa.api.PlacedCard;
 import nl.roka.mozaa.api.Position;
@@ -9,8 +10,6 @@ import nl.roka.mozaa.util.Point;
 import processing.core.PApplet;
 
 public class MozaaRenderer {
-
-	public static boolean DEBUG = false;
 	private final PApplet p5;
 	private final Camera camera;
 	private final GridCalculator gridCalculator;
@@ -23,10 +22,10 @@ public class MozaaRenderer {
 
 	public void render(Card card) {
 		p5.translate(p5.mouseX, p5.mouseY);
-		camera.scale();
+		p5.scale(camera.getScale());
 		CardRenderer.with(card, p5).alpha(122).render();
 
-		if (DEBUG) {
+		if (MozaaApplet.DEBUG) {
 			p5.fill(255);
 			p5.text(mousePosition(), 0, 0);
 		}
@@ -41,29 +40,11 @@ public class MozaaRenderer {
 		p5.translate(CardRenderer.SIZE/2,CardRenderer.SIZE/2);
 		CardRenderer.with(card, p5).render();
 
-		if (DEBUG) {
+		if (MozaaApplet.DEBUG) {
 			p5.fill(255);
 			p5.text(position.getRow() + "," + position.getColumn(), CardRenderer.SIZE / 4, CardRenderer.SIZE / 2);
 		}
 		p5.popMatrix();
-	}
-
-	public void renderGrid() {
-		if (!DEBUG)
-			return;
-
-		final int maxWidth = 64*64*2;
-
-		p5.stroke(255);
-		p5.noFill();
-		for (int i=0;i<maxWidth;i+=64){
-			p5.line(i, 0, i, maxWidth);
-			p5.line(0, i, maxWidth, i);
-			for (int j=0;j<maxWidth;j+=64) {
-				p5.text(gridPosition(j, i), j + 32, i + 32);
-			}
-		}
-		p5.stroke(0);
 	}
 
 	private Point toPoint(Position position) {
