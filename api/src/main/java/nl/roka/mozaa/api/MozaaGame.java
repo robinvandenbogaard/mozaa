@@ -12,15 +12,7 @@ public interface MozaaGame {
 
 	void rotateCurrentCard();
 
-	int getOuterLeftColumn();
+	BoardMetrics getBoardMetrics();
 
-	int getOuterRightColumn();
-
-	int getOuterTopRow();
-
-	int getOuterBottomRow();
-
-	int getScorePlayer1();
-
-	int getScorePlayer2();
+	GameScore getScore();
 }

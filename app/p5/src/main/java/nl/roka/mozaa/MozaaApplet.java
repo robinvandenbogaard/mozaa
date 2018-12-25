@@ -1,5 +1,6 @@
 package nl.roka.mozaa;
 
+import nl.roka.mozaa.api.GameScore;
 import nl.roka.mozaa.api.MozaaGame;
 import nl.roka.mozaa.api.MozaaGameFactory;
 import nl.roka.mozaa.camera.Camera;
@@ -79,8 +80,9 @@ public class MozaaApplet extends PApplet {
 			nl.roka.mozaa.api.Card card = game.getCurrentCard();
 			CardRenderer.with(card, this).render();
 		});
-		text("Score P1: "+game.getScorePlayer1(), 10, 20);
-		text("Score P2: "+game.getScorePlayer2(), 10, 40);
+		GameScore score = game.getScore();
+		text("Score P1: "+score.getScorePlayer1(), 10, 20);
+		text("Score P2: "+score.getScorePlayer2(), 10, 40);
 	}
 
 	private void pushPop(Runnable runnable) {

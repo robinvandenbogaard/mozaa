@@ -1,5 +1,6 @@
 package nl.roka.mozaa.field;
 
+import nl.roka.mozaa.api.BoardMetrics;
 import nl.roka.mozaa.card.Card;
 import nl.roka.mozaa.card.CardFactory;
 import nl.roka.mozaa.util.Position;
@@ -7,7 +8,7 @@ import nl.roka.mozaa.util.Position;
 import java.util.List;
 import java.util.Optional;
 
-public class PlayingField {
+public class PlayingField  implements BoardMetrics {
 
 	final private FieldMatrix matrix;
 	private final MoveValidator validator;

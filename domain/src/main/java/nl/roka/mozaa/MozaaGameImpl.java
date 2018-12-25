@@ -1,5 +1,7 @@
 package nl.roka.mozaa;
 
+import nl.roka.mozaa.api.BoardMetrics;
+import nl.roka.mozaa.api.GameScore;
 import nl.roka.mozaa.api.MozaaGame;
 import nl.roka.mozaa.api.PlacedCards;
 import nl.roka.mozaa.card.Card;
@@ -89,33 +91,13 @@ public class MozaaGameImpl extends Observable implements MozaaGame {
 	}
 
 	@Override
-	public int getOuterLeftColumn() {
-		return playingField.getOuterLeftColumn();
+	public BoardMetrics getBoardMetrics() {
+		return playingField;
 	}
 
 	@Override
-	public int getOuterRightColumn() {
-		return playingField.getOuterRightColumn();
-	}
-
-	@Override
-	public int getOuterTopRow() {
-		return playingField.getOuterTopRow();
-	}
-
-	@Override
-	public int getOuterBottomRow() {
-		return playingField.getOuterBottomRow();
-	}
-
-	@Override
-	public int getScorePlayer1() {
-		return players.getScorePlayer1();
-	}
-
-	@Override
-	public int getScorePlayer2() {
-		return +players.getScorePlayer2();
+	public GameScore getScore() {
+		return players;
 	}
 
 	private void takeNextCard() {

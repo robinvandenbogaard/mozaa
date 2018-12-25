@@ -1,6 +1,7 @@
 package nl.roka.mozaa.camera;
 
 import nl.roka.mozaa.MozaaApplet;
+import nl.roka.mozaa.api.BoardMetrics;
 import nl.roka.mozaa.api.MozaaGame;
 import nl.roka.mozaa.rendering.CardRenderer;
 import nl.roka.mozaa.util.Dimension;
@@ -66,10 +67,12 @@ public class Camera {
 	}
 
 	private Rectangle getWorldPlane() {
-		int outerLeft = game.getOuterLeftColumn() - EMPTY_BORDER;
-		int outerTop = game.getOuterTopRow() - EMPTY_BORDER;
-		int outerRight = game.getOuterRightColumn() + EMPTY_BORDER;
-		int outerBottom = game.getOuterBottomRow() + EMPTY_BORDER;
+		BoardMetrics metrics = game.getBoardMetrics();
+
+		int outerLeft = metrics.getOuterLeftColumn() - EMPTY_BORDER;
+		int outerTop = metrics.getOuterTopRow() - EMPTY_BORDER;
+		int outerRight = metrics.getOuterRightColumn() + EMPTY_BORDER;
+		int outerBottom = metrics.getOuterBottomRow() + EMPTY_BORDER;
 		return Rectangle.of(outerLeft, outerTop, outerRight, outerBottom).multiplyBy(CardRenderer.SIZE);
 	}
 

@@ -1,11 +1,12 @@
 package nl.roka.mozaa.player;
 
 
+import nl.roka.mozaa.api.GameScore;
 import nl.roka.mozaa.card.Card;
 
 import java.util.Optional;
 
-public class Players {
+public class Players implements GameScore {
 
 	private final Player player1;
 	private final Player player2;
